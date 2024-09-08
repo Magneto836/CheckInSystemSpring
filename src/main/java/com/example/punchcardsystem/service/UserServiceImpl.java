@@ -1,0 +1,67 @@
+package com.example.punchcardsystem.service;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.punchcardsystem.dao.UserDao;
+import com.example.punchcardsystem.pojo.UserPojo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@Transactional
+public class UserServiceImpl {
+
+    @Autowired
+    UserDao userDao;
+
+
+    /*
+        要实现的功能:
+        1. 注册添加数据 √
+        2. 登录账号匹配 √
+        3. （修改密码）
+
+
+        注意的问题：
+        1. id 不由用户提供， addUser 是否还需要提供 id
+        2. 如何给用户区分两种身份 ，即怎么赋值 role 值
+     */
+
+
+
+
+    public void addUser(String username, String password,
+                        String role) {
+        UserPojo existingUser = userDao.selectOne(new QueryWrapper<UserPojo>().eq("username", username));
+
+        if (existingUser != null) {
+            throw new RuntimeException("用户名已存在，请选择其他用户名");
+        }
+
+        UserPojo newUser = new UserPojo();
+        newUser.setUsername(username);
+        newUser.setPassword(password);
+        newUser.setRole(role);
+        userDao.insert(newUser);
+
+    }
+
+    // 匹配账号密码
+    public void verifyUserCredentials(String username, String password) {
+        QueryWrapper<UserPojo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", username);  // 仅根据用户名查询
+
+        UserPojo user = userDao.selectOne(queryWrapper);
+
+        if (user == null) {
+            throw new RuntimeException("用户不存在");
+        }
+
+        if (!user.getPassword().equals(password)) {
+            throw new RuntimeException("密码错误");
+        }
+
+
+    }
+
+}
