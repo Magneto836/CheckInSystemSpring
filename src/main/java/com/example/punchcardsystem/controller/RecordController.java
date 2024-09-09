@@ -21,19 +21,19 @@ public class RecordController {
     RecordServiceImpl recordService;
     @RequestMapping(value="/ClockIn",method = RequestMethod.POST)
     public String clockIn(@RequestParam("user_id") int userId,
-                                          @RequestParam("clock_in_time") @DateTimeFormat(pattern = "HH:mm:ss") LocalTime clockInTime,
+                                          @RequestParam("clock_in_time") String clockInTimeStr,
                                           @RequestParam("locationX") double locationX,
                                           @RequestParam("locationY") double locationY,
-                                          @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        recordService.addRecordIn(userId, Time.valueOf(clockInTime), locationX, locationY, java.sql.Date.valueOf(date));
+                                          @RequestParam("date") String  dateStr) {
+        recordService.addRecordIn(userId, Time.valueOf(LocalTime.parse(clockInTimeStr)), locationX, locationY, java.sql.Date.valueOf(LocalDate.parse(dateStr)));
         return Result.okGetString();
     }
 
     @RequestMapping(value="/ClockOut",method = RequestMethod.POST)
     public String clockOut(@RequestParam("user_id") int userId,
-                          @RequestParam("clock_out_time") @DateTimeFormat(pattern = "HH:mm:ss") LocalTime clockOutTime,
-                          @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        recordService.RecordOut(userId, Time.valueOf(clockOutTime), java.sql.Date.valueOf(date));
+                          @RequestParam("clock_out_time") String clockOutTimeStr,
+                          @RequestParam("date")  String  dateStr) {
+        recordService.RecordOut(userId, Time.valueOf(LocalTime.parse(clockOutTimeStr)),java.sql.Date.valueOf(LocalDate.parse(dateStr)));
         return Result.okGetString();
     }
 

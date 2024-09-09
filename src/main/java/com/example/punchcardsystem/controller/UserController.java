@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.HashMap;
+
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -21,9 +24,11 @@ public class UserController {
                           @RequestParam("role") String role
                           ){
         //登录
-        userService.addUser(username, password, role);
+        int userId = userService.addUser(username, password, role);
 
-        return Result.okGetString();
+        Map<String ,Object> data=new HashMap<>();
+        data.put("user_id",userId);
+        return Result.okGetStringWithData(data);
 
     }
 
@@ -31,10 +36,11 @@ public class UserController {
     public String login(@RequestParam("username") String username,
                                         @RequestParam("password") String password) {
         // 调用 service 层方法验证用户名和密码
-        userService.verifyUserCredentials(username, password);
-
+        int user_id = userService.verifyUserCredentials(username, password);
+        Map<String, Object> data = new HashMap<>();
+        data.put("user_id", user_id);
         // 根据验证结果返回响应
-        return Result.okGetString();
+        return Result.okGetStringWithData(data);
 
     }
 

@@ -30,7 +30,7 @@ public class UserServiceImpl {
 
 
 
-    public void addUser(String username, String password,
+    public int  addUser(String username, String password,
                         String role) {
         UserPojo existingUser = userDao.selectOne(new QueryWrapper<UserPojo>().eq("username", username));
 
@@ -43,11 +43,12 @@ public class UserServiceImpl {
         newUser.setPassword(password);
         newUser.setRole(role);
         userDao.insert(newUser);
+        return newUser.getId();
 
     }
 
     // 匹配账号密码
-    public void verifyUserCredentials(String username, String password) {
+    public int verifyUserCredentials(String username, String password) {
         QueryWrapper<UserPojo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", username);  // 仅根据用户名查询
 
@@ -61,7 +62,7 @@ public class UserServiceImpl {
             throw new RuntimeException("密码错误");
         }
 
-
+    return user.getId();
     }
 
 }
