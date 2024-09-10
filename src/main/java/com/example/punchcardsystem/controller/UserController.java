@@ -36,9 +36,10 @@ public class UserController {
     public String login(@RequestParam("username") String username,
                                         @RequestParam("password") String password) {
         // 调用 service 层方法验证用户名和密码
-        int user_id = userService.verifyUserCredentials(username, password);
+        int user_id = userService.verifyUserCredentials(username, password).getUserId();
         Map<String, Object> data = new HashMap<>();
         data.put("user_id", user_id);
+        data.put("role",userService.verifyUserCredentials(username, password).getRole());
         // 根据验证结果返回响应
         return Result.okGetStringWithData(data);
 

@@ -1,5 +1,6 @@
 package com.example.punchcardsystem.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.punchcardsystem.dao.CompanyDao;
 import com.example.punchcardsystem.dao.RecordDao;
 import com.example.punchcardsystem.pojo.CompanyPojo;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -119,6 +121,11 @@ public class RecordServiceImpl {
         }
     }
 
+    public List<RecordPojo> getRecordsByUserId(int userId) {
+        QueryWrapper<RecordPojo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("userId", userId);
+        return recordDao.selectList(queryWrapper);
+    }
 
 
 }

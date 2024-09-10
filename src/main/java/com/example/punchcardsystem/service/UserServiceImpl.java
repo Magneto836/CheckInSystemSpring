@@ -2,6 +2,7 @@ package com.example.punchcardsystem.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.punchcardsystem.dao.UserDao;
+import com.example.punchcardsystem.dto.UserLoginResponse;
 import com.example.punchcardsystem.pojo.UserPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,7 @@ public class UserServiceImpl {
     }
 
     // 匹配账号密码
-    public int verifyUserCredentials(String username, String password) {
+    public UserLoginResponse verifyUserCredentials(String username, String password) {
         QueryWrapper<UserPojo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", username);  // 仅根据用户名查询
 
@@ -62,7 +63,7 @@ public class UserServiceImpl {
             throw new RuntimeException("密码错误");
         }
 
-    return user.getId();
+    return new UserLoginResponse(user.getId(), user.getRole());
     }
 
 }

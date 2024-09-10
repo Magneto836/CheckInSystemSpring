@@ -35,10 +35,15 @@ class PunchCardSystemApplicationTests {
 
 		userService.addUser("tester1","中文","employee");
 
-		recordService.addRecordIn(2,Time.valueOf("06:30:00"), 108.3,-101.568,Date.valueOf("2024-09-10"));
 
-		recordService.RecordOut(1,Time.valueOf("18:00:00"),Date.valueOf("2023-09-06"));
-*/
+
+
+
+
+
+		recordService.addRecordIn(2,Time.valueOf("12:30:00"), 108.3,-101.568,Date.valueOf("2024-09-20"));
+		*/
+		recordService.RecordOut(2,Time.valueOf("13:00:00"),Date.valueOf("2024-09-20"));
 
 	}
 
