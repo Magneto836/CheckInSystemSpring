@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    username: root
+    password: WZJYhxry518144@
+    url: jdbc:mysql://localhost:3306/punchcardsystem
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+
+
